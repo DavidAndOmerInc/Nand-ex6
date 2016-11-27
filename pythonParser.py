@@ -12,16 +12,11 @@ class hackFile:
         self.vDef = {}
         for i in range(15):
             self.vDef["R" + str(i)] = i
-        self.lines1 = self.parseLines(fileToParse)
-        t = self.parser_line
-        l = []
-        for line in self.lines1:
-            l.append(t(line))
-        print(self.lines1)
-        print(l)
-        print(len(l[0]))
-        exit()
-
+        self.lines = self.parseLines(fileToParse)
+        l = self.lines.copy()
+        self.lines.clear()
+        for line in l:
+            self.lines.append(self.parser_line(line))
     def parseLines(self, lines):
         count = 0
         lines = lines.split("\n")
@@ -225,3 +220,11 @@ class hackFile:
             return self.parser_a_instruction(line)
         else:
             return self.parser_c_instruction(line)
+
+    def save(self, path):
+        k = path.rfind(".")
+        path = path[:k]+".hack"
+        f = open(path, 'w')
+        for line in self.lines:
+            f.write(line)
+            f.write("\n")
