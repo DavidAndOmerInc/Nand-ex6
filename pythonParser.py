@@ -2,12 +2,13 @@ import re
 
 isComment = re.compile("[ ]*//")
 emptyLine = re.compile(" *")
-varFinder = re.compile("\(([A-Za-z0-9]+)\)")
-varNumFinder = re.compile("\((R?([0-9]|1[0-5]))")
+varFinder = re.compile("\(([A-Za-z0-9_-]+)\)")
+varNumFinder = re.compile("@([0-9^][A-Za-z0-9_-]+)")
 
 
 class hackFile:
     def __init__(self, fileToParse):
+        self.memory = 16
         self.vDef = {}
         for i in range(15):
             self.vDef["R" + str(i)] = i
@@ -24,16 +25,38 @@ class hackFile:
             if (line is ''):
                 continue
             line = self.changeVariables(line, count)
+            if(line is ''):
+                continue
             count += 1
-            parsedLines.append(line)
-        print(parsedLines)
+            parsedLines.append(line.replace(' ',''))
+        sndParsed = []
+        for line in parsedLines:
+            m = varNumFinder.search(line)
+            print(varNumFinder.search(line))
+            if(m):
+                if(m.group(1) in self.vDef):
+                    sndParsed.append("@%s"%self.vDef[m.group(1)])
+                else:
+                    sndParsed.append("@%s" %self.allocateMemory())
+            else:
+                sndParsed.append(line)
+        print(sndParsed)
         exit()
+
+
+    def allocateMemory(self):
+        if(self.memory in self.vDef.values()):
+            self.memory+=1
+            return self.allocateMemory()
+        m = self.memory
+        self.memory += 1
+        return m
 
     def changeVariables(self, line, count):
         m = varFinder.search(line)
         if (m):
             self.vDef[m.group(1)] = count
-            return "(%s)" % count
+            return ''
         return line
 
     # Parse The asm file
