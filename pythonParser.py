@@ -20,7 +20,6 @@ class hackFile:
         print(self.lines1)
         print(l)
         print(len(l[0]))
-        exit()
 
     def parseLines(self, lines):
         count = 0
@@ -129,3 +128,9 @@ class hackFile:
             return self.parser_a_instruction(line)
         else:
             return self.parser_c_instruction(line)
+
+    def save(self, path):
+        k = path.findlast.rfind(".")
+        path = path[:k]+".hack"
+        print(path)
+        exit()
