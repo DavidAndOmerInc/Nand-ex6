@@ -102,11 +102,11 @@ class hackFile:
             dest = self.parser_dest(line[:first_split])
             line = line[first_split + 1:]
         else:
-            dest = ''
+            dest = '000'
         second_split = line.find(';')  # there is a bug here.
         if second_split == -1:
             comp = self.parser_comp(line)
-            jmp = ''
+            jmp = '000'
         else:
             comp = self.parser_comp(line[:second_split])
             jmp = self.parser_jmp(line[second_split + 1:])

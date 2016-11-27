@@ -80,11 +80,11 @@ def parser_c_instruction(line):
         dest = parser_dest(line[:first_split])
         line = line[first_split + 1:]
     else:
-        dest = ''
+        dest = '000'
     second_split = line.index(';')
     if second_split == -1:
         comp = parser_comp(line)
-        jmp = ''
+        jmp = '000'
     else:
         comp = parser_comp(line[:second_split])
         jmp = parser_jmp(line[second_split + 1:])
