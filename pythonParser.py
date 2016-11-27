@@ -17,7 +17,9 @@ class hackFile:
         l = []
         for line in self.lines1:
             l.append(t(line))
+        print(self.lines1)
         print(l)
+        print(len(l[0]))
         exit()
 
     def parseLines(self, lines):
@@ -102,8 +104,6 @@ class hackFile:
             dest = self.parser_dest(line[:first_split])
             line = line[first_split + 1:]
         else:
-            dest = ''
-        second_split = line.find(';') #there is a bug here.
             dest = '000'
         second_split = line.find(';')  # there is a bug here.
         if second_split == -1:
@@ -118,7 +118,7 @@ class hackFile:
         tmp_bin = str(bin(int(line[1:])))[2:]
         length = len(tmp_bin)
         if length < 15:
-            return '0' * (15 - length) + tmp_bin
+            return '0' * (16 - length) + tmp_bin
         elif length == 15:
             return '0%s' %tmp_bin
         else:
