@@ -3,7 +3,7 @@ import re
 isComment = re.compile("[ ]*//")
 emptyLine = re.compile(" *")
 varFinder = re.compile("\(([A-Za-z0-9_-]+)\)")
-varNumFinder = re.compile("@([0-9^][A-Za-z0-9_-]+)")
+varNumFinder = re.compile("@([A-Za-z_-][A-Za-z0-9_-]*)")
 
 
 class hackFile:
@@ -12,7 +12,7 @@ class hackFile:
         self.vDef = {}
         for i in range(15):
             self.vDef["R" + str(i)] = i
-        __lines = self.parseLines(fileToParse)
+        self.lines = self.parseLines(fileToParse)
 
     def parseLines(self, lines):
         count = 0
@@ -32,7 +32,6 @@ class hackFile:
         sndParsed = []
         for line in parsedLines:
             m = varNumFinder.search(line)
-            print(varNumFinder.search(line))
             if(m):
                 if(m.group(1) in self.vDef):
                     sndParsed.append("@%s"%self.vDef[m.group(1)])
@@ -40,8 +39,7 @@ class hackFile:
                     sndParsed.append("@%s" %self.allocateMemory())
             else:
                 sndParsed.append(line)
-        print(sndParsed)
-        exit()
+        return sndParsed
 
 
     def allocateMemory(self):
