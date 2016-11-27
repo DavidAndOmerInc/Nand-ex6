@@ -66,22 +66,44 @@ class hackFile:
     # Parse The asm file
 
     def parser_dest(self, dest):
-        return ''
+        d1 = '0'
+        d2 = '0'
+        d3 = '0'
+        if 'A' in dest:
+            d1 = '1'
+        if 'M' in dest:
+            d3 = '1'
+        if 'D' in dest:
+            d2 = '1'
+        return d1 + d2 + d3
 
     def parser_comp(self, comp):
         return ''
 
     def parser_jmp(self, jmp):
-        return ''
+        if jmp == 'JGT':
+            return '001'
+        elif jmp == 'JEQ':
+            return '010'
+        elif jmp == 'JGE':
+            return '011'
+        elif jmp == 'JLT':
+            return '100'
+        elif jmp == 'JNE':
+            return '101'
+        elif jmp == 'JLE':
+            return '110'
+        else:
+            return '111'
 
     def parser_c_instruction(self, line):
-        first_split = line.index('=')
+        first_split = line.find('=')
         if first_split > -1:
             dest = self.parser_dest(line[:first_split])
             line = line[first_split + 1:]
         else:
             dest = ''
-        second_split = line.index(';') #there is a bug here.
+        second_split = line.find(';')  # there is a bug here.
         if second_split == -1:
             comp = self.parser_comp(line)
             jmp = ''
