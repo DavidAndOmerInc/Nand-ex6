@@ -33,26 +33,25 @@ class hackFile:
             if (line is ''):
                 continue
             line = self.changeVariables(line, count)
-            if(line is ''):
+            if (line is ''):
                 continue
             count += 1
-            parsedLines.append(line.replace(' ',''))
+            parsedLines.append(line.replace(' ', ''))
         sndParsed = []
         for line in parsedLines:
             m = varNumFinder.search(line)
-            if(m):
-                if(m.group(1) in self.vDef):
-                    sndParsed.append("@%s"%self.vDef[m.group(1)])
+            if (m):
+                if (m.group(1) in self.vDef):
+                    sndParsed.append("@%s" % self.vDef[m.group(1)])
                 else:
-                    sndParsed.append("@%s" %self.allocateMemory())
+                    sndParsed.append("@%s" % self.allocateMemory())
             else:
                 sndParsed.append(line)
         return sndParsed
 
-
     def allocateMemory(self):
-        if(self.memory in self.vDef.values()):
-            self.memory+=1
+        if (self.memory in self.vDef.values()):
+            self.memory += 1
             return self.allocateMemory()
         m = self.memory
         self.memory += 1
@@ -120,9 +119,9 @@ class hackFile:
         if length < 15:
             return '0' * (16 - length) + tmp_bin
         elif length == 15:
-            return '0%s' %tmp_bin
+            return '0%s' % tmp_bin
         else:
-            return '0%s' %tmp_bin[-15:]
+            return '0%s' % tmp_bin[-15:]
 
     def parser_line(self, line):
         if line[0] == '@':

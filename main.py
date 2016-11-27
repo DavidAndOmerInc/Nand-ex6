@@ -23,7 +23,8 @@ if __name__ == '__main__':
     else:
         files = [arg[1]]
     for asm_file in files:
-        hackFile(path_to_string(asm_file))
+        tmp = hackFile(path_to_string(asm_file))
+        tmp.save(asm_file)
 
 
 def parser_dest(dest):
@@ -41,6 +42,7 @@ def parser_dest(dest):
 
 def parser_comp(comp):
     a = '0' if 'A' in comp else '1'
+    comp.replace('M', 'A')
     inst1 = '0'
     inst2 = '0'
     if '<<' in comp:
