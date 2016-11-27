@@ -14,10 +14,10 @@ class hackFile:
             self.vDef["R" + str(i)] = i
         self.lines1 = self.parseLines(fileToParse)
         t = self.parser_line
-        print("hey")
-        l = map(t,self.lines1)
-        print(list(l))
-        print(self.lines1)
+        l = []
+        for line in self.lines1:
+            l.append(t(line))
+        print(l)
         exit()
 
     def parseLines(self, lines):
@@ -102,6 +102,8 @@ class hackFile:
             dest = self.parser_dest(line[:first_split])
             line = line[first_split + 1:]
         else:
+            dest = ''
+        second_split = line.find(';') #there is a bug here.
             dest = '000'
         second_split = line.find(';')  # there is a bug here.
         if second_split == -1:
@@ -118,15 +120,12 @@ class hackFile:
         if length < 15:
             return '0' * (15 - length) + tmp_bin
         elif length == 15:
-            return '0' + tmp_bin
+            return '0%s' %tmp_bin
         else:
-            return '0' + tmp_bin[-15:]
+            return '0%s' %tmp_bin[-15:]
 
     def parser_line(self, line):
-        print(line)
         if line[0] == '@':
-            print("A")
             return self.parser_a_instruction(line)
         else:
-            print("C")
             return self.parser_c_instruction(line)
