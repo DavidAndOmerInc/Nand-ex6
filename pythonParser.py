@@ -116,7 +116,7 @@ class hackFile:
         tmp_bin = str(bin(int(line[1:])))[2:]
         length = len(tmp_bin)
         if length < 15:
-            tmp_bin = '0' * (15 - length) + tmp_bin
+            return '0' * (15 - length) + tmp_bin
         elif length == 15:
             return '0' + tmp_bin
         else:
