@@ -4,10 +4,3 @@ class hackFile:
 
     def parseLines(self, lines):
         lines = lines.split("\n")
-
-
-
-
-
-
-
