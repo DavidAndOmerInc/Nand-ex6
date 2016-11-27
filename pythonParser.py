@@ -12,7 +12,13 @@ class hackFile:
         self.vDef = {}
         for i in range(15):
             self.vDef["R" + str(i)] = i
-        self.lines = self.parseLines(fileToParse)
+        self.lines1 = self.parseLines(fileToParse)
+        t = self.parser_line
+        print("hey")
+        l = map(t,self.lines1)
+        print(list(l))
+        print(self.lines1)
+        exit()
 
     def parseLines(self, lines):
         count = 0
@@ -75,7 +81,7 @@ class hackFile:
             line = line[first_split + 1:]
         else:
             dest = ''
-        second_split = line.index(';')
+        second_split = line.index(';') #there is a bug here.
         if second_split == -1:
             comp = self.parser_comp(line)
             jmp = ''
@@ -95,7 +101,10 @@ class hackFile:
             return '0' + tmp_bin[-15:]
 
     def parser_line(self, line):
+        print(line)
         if line[0] == '@':
+            print("A")
             return self.parser_a_instruction(line)
         else:
+            print("C")
             return self.parser_c_instruction(line)
