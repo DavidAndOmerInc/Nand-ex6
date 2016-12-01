@@ -1,7 +1,7 @@
 import os
 import sys
 
-from pythonParser import HackFile
+from PythonParser import HackFile
 
 
 def path_to_string(path):
