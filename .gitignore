@@ -15,3 +15,5 @@
 .idea/gradle.xml
 .idea/libraries
 .idea\*
+.idea/*
+files\*.hack
