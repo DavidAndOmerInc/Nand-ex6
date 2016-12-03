@@ -128,12 +128,9 @@ class HackFile:
         snd_parsed = []
         c = 0
         for line in parsed_lines:
-            if(c >= 4530):
-                print("H")
             m = varNumFinder.search(line)
             if m:
                 if m.group(1) in self.vDef:
-                    print(m.group(1), self.vDef[m.group(1)])
                     snd_parsed.append("@%s" % self.vDef[m.group(1)])
                 else:
                     km = self.allocate_memory()
@@ -146,7 +143,6 @@ class HackFile:
 
 
     def allocate_memory(self):
-        print("Yo")
         if self.memory in self.vDef.values():
             self.memory += 1
             return self.allocate_memory()
@@ -159,9 +155,6 @@ class HackFile:
 
         m = varFinder.search(line)
         if m:
-            if (line.startswith("(sys")):
-                print(count)
-                print(m.group(1))
             self.vDef[m.group(1)] = count
             return ''
         return line
