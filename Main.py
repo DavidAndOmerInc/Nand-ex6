@@ -6,7 +6,7 @@ from PythonParser import HackFile
 
 
 def path_to_string(path):
-    print('parsing : %s'%path)
+    # print('parsing : %s' % path)
     asm = open(path)
     lines = ''
     for line in asm:
@@ -21,8 +21,9 @@ if __name__ == '__main__':
         files = list()
         files_list = os.listdir(arg[1])
         for file in files_list:
-            if file.endswith('.asm'):
-                files.append(arg[1] + '/' + file)
+            filename = arg[1] + '/' + file
+            if file.endswith('.asm') and os.path.isfile(filename):
+                files.append(filename)
     else:
         files = [arg[1]]
     for asm_file in files:
