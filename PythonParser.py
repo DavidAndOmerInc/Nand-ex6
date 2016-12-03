@@ -135,7 +135,6 @@ class HackFile:
                 else:
 
                     km = self.allocate_memory()
-                    print("hey")
                     snd_parsed.append("@%s" %km )
                     self.vDef[m.group(1)] = km
             else:
