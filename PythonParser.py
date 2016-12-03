@@ -3,7 +3,7 @@ import re
 isComment = re.compile("[ ]*//")
 emptyLine = re.compile(" *")
 varFinder = re.compile("\(([A-Za-z0-9_\,\.\$\-]+)\)")
-varNumFinder = re.compile("@([A-Za-z_-][A-Za-z0-9_-]*)")
+varNumFinder = re.compile("@([A-Za-z_-][A-Za-z0-9_\,\.\$\-]*)")
 
 compute_to_bin = {'0': '101010', '1': '111111', '-1': '111010', 'D': '001100', 'A': '110000', '!D': '001101',
                   '!A': '110001', '-D': '001111', '-A': '110011', 'D+1': '011111', 'A+1': '110111',
@@ -94,21 +94,21 @@ class HackFile:
     def __init__(self, file_to_parse):
         self.memory = 16
         self.vDef = {}
-        for i in range(15):
+        for i in range(16):
             self.vDef["R" + str(i)] = i
-		self.vDef["KBD"] = 24576
-		self.vDef["SCREEN"] = 16384
-		self.vDef["SP"] = 0
-		self.vDef["LCL"] = 1
-		self.vDef["ARG"] = 2
-		self.vDef["THIS"] = 3
-		self.vDef["THAT"] = 4
-		
+        self.vDef["KBD"] = 24576
+        self.vDef["SCREEN"] = 16384
+        self.vDef["SP"] = 0
+        self.vDef["LCL"] = 1
+        self.vDef["ARG"] = 2
+        self.vDef["THIS"] = 3
+        self.vDef["THAT"] = 4
         self.lines = self.parse_lines(file_to_parse)
         l = self.lines.copy()
         self.lines.clear()
         for line in l:
             self.lines.append(parser_line(line))
+
 
     def parse_lines(self, lines):
         count = 0
@@ -126,18 +126,27 @@ class HackFile:
             count += 1
             parsed_lines.append(line.replace(' ', ''))
         snd_parsed = []
+        c = 0
         for line in parsed_lines:
+            if(c >= 4530):
+                print("H")
             m = varNumFinder.search(line)
             if m:
                 if m.group(1) in self.vDef:
+                    print(m.group(1), self.vDef[m.group(1)])
                     snd_parsed.append("@%s" % self.vDef[m.group(1)])
                 else:
-                    snd_parsed.append("@%s" % self.allocate_memory())
+                    m = self.allocate_memory()
+                    snd_parsed.append("@%s" %m )
+                    self.vDef[m.group(1)] = m
             else:
                 snd_parsed.append(line)
+            c+=1
         return snd_parsed
 
+
     def allocate_memory(self):
+        print("Yo")
         if self.memory in self.vDef.values():
             self.memory += 1
             return self.allocate_memory()
@@ -145,12 +154,18 @@ class HackFile:
         self.memory += 1
         return m
 
+
     def change_variables(self, line, count):
+
         m = varFinder.search(line)
         if m:
+            if (line.startswith("(sys")):
+                print(count)
+                print(m.group(1))
             self.vDef[m.group(1)] = count
             return ''
         return line
+
 
     def save(self, path):
         k = path.rfind(".")
