@@ -96,6 +96,14 @@ class HackFile:
         self.vDef = {}
         for i in range(15):
             self.vDef["R" + str(i)] = i
+		self.vDef["KBD"] = 24576
+		self.vDef["SCREEN"] = 16384
+		self.vDef["SP"] = 0
+		self.vDef["LCL"] = 1
+		self.vDef["ARG"] = 2
+		self.vDef["THIS"] = 3
+		self.vDef["THAT"] = 4
+		
         self.lines = self.parse_lines(file_to_parse)
         l = self.lines.copy()
         self.lines.clear()
