@@ -73,7 +73,7 @@ def parser_c_instruction(line):
         line = line[first_split + 1:]
     else:
         destination = '000'
-    second_split = line.find(';')  # there is a bug here.
+    second_split = line.find(';')
     if second_split == -1:
         comp = parser_comp(line)
         jmp = '000'
@@ -93,22 +93,14 @@ def parser_line(line):
 class HackFile:
     def __init__(self, file_to_parse):
         self.memory = 16
-        self.vDef = {}
+        self.vDef = {"KBD": 24576, "SCREEN": 16384, "SP": 0, "LCL": 1, "ARG": 2, "THIS": 3, "THAT": 4}
         for i in range(16):
             self.vDef["R" + str(i)] = i
-        self.vDef["KBD"] = 24576
-        self.vDef["SCREEN"] = 16384
-        self.vDef["SP"] = 0
-        self.vDef["LCL"] = 1
-        self.vDef["ARG"] = 2
-        self.vDef["THIS"] = 3
-        self.vDef["THAT"] = 4
         self.lines = self.parse_lines(file_to_parse)
         l = self.lines.copy()
         self.lines.clear()
         for line in l:
             self.lines.append(parser_line(line))
-
 
     def parse_lines(self, lines):
         count = 0
@@ -135,19 +127,17 @@ class HackFile:
                 else:
 
                     km = self.allocate_memory()
-                    snd_parsed.append("@%s" %km )
+                    snd_parsed.append("@%s" % km)
                     self.vDef[m.group(1)] = km
             else:
                 snd_parsed.append(line)
-            c+=1
+            c += 1
         return snd_parsed
-
 
     def allocate_memory(self):
         m = self.memory
         self.memory += 1
         return m
-
 
     def change_variables(self, line, count):
 
@@ -156,7 +146,6 @@ class HackFile:
             self.vDef[m.group(1)] = count
             return ''
         return line
-
 
     def save(self, path):
         k = path.rfind(".")
