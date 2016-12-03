@@ -5,6 +5,7 @@ from PythonParser import HackFile
 
 
 def path_to_string(path):
+    print('parsing : %s'%path)
     asm = open(path)
     lines = ''
     for line in asm:

@@ -2,7 +2,7 @@ import re
 
 isComment = re.compile("[ ]*//")
 emptyLine = re.compile(" *")
-varFinder = re.compile("\(([A-Za-z0-9_-]+)\)")
+varFinder = re.compile("\(([A-Za-z0-9_\,\.\$\-]+)\)")
 varNumFinder = re.compile("@([A-Za-z_-][A-Za-z0-9_-]*)")
 
 compute_to_bin = {'0': '101010', '1': '111111', '-1': '111010', 'D': '001100', 'A': '110000', '!D': '001101',
