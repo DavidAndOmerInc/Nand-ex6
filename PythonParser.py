@@ -133,7 +133,9 @@ class HackFile:
                 if m.group(1) in self.vDef:
                     snd_parsed.append("@%s" % self.vDef[m.group(1)])
                 else:
+
                     km = self.allocate_memory()
+                    print("hey")
                     snd_parsed.append("@%s" %km )
                     self.vDef[m.group(1)] = km
             else:
@@ -143,9 +145,6 @@ class HackFile:
 
 
     def allocate_memory(self):
-        if self.memory in self.vDef.values():
-            self.memory += 1
-            return self.allocate_memory()
         m = self.memory
         self.memory += 1
         return m
